@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,900');
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
+
+.app {
+  display: inline;
+}
+
+body {
+  font-family: Lato, Sans-Serif;
+  font-size: 16px;
+  width: 90%;
+  min-width: 900px;
+  max-width: 1000px;
+  margin: auto;
+  padding-top: 10px;
+  display: block;
+}
+
+.top-bar {
+  font-size: 1.2em;
+  height: 100px;
+}
+
+.player {
+  display: inline;
+  width: 400px;
+  float: left;
+}
+
+.player-h2 {
+  display: block;
+  float: left;
+  width: 275px;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  padding-left: 0.3em;
+}
+
+.player-p {
+  width: 275px;
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-left: 0.3em;
+}
+
+.player-img {
+  float: left;
+}
+
+.computer {
+  text-align: right;
+  float: right;
+  width: 400px;
+}
+
+.computer-h2 {
+  display: block;
+  float: right;
+  width: 275px;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  padding-right: .3em;
+}
+
+.computer-p {
+  width: 275px;
+  display: block;
+  float: right;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.3em;
+}
+
+.computer-img {
+  float: right;
+}
+
+.main-question {
+  text-align: center;
+  font-size: 8em;
+  margin: 0.2em;
+}
+
+.answers {
+  margin: auto;
+  width: 850px;
+  padding: 1em;
+  padding-bottom: 2px;
+}
+
+.answer-block {
+  margin: 20px;
+  padding: 0;
+  display: inline-block;
+  border: 3px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  }
+
+.answer-p {
+  margin: 3px;
+  text-align: center;
+  font-size: 5em;
+  width: 150px;
+  height: 100px;
+}
+
+.win {
+  font-family: 'Permanent Marker';
+  text-align: center;
+  font-size: 4.5em;
+  margin: auto;
+}
+
+.right-green {
+  border: 7px green solid;
+  color: green;
+}
+
+.border-black {
+  border: 1px black solid;
+  color: black;
+}
+
+.hits-right {
+  color: green;
+}
+
+.hits-wrong {
+  color: red;
+}
+
+.hits-no {
+  color: gray;
+}
+
+.hits {
+  padding: 5px;
+  display: inline;
+}
+
+.comp-hits {
+  padding: 5px;
+  display: inline; 
+}
+
+i {
+  padding: 2px;
+  margin: 0px;
+}
+
+.volume {
+  color: grey;
+  font-size: 3em;
+  cursor: pointer;
+  margin: 2px;
+  padding: 2px;
+  
+}
+
+button {
+  display: block;
+  margin: auto;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  width: 300px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+  background-color: white;
+  cursor: pointer;
+  font-family: 'Permanent Marker';
+  font-size: 3em;
+}
+
+.play-button {
+  border: 8px solid #A5FFA1;
+  color: #A5FFA1;
+}
+
+.play-button:hover {
+  border: 8px solid green;
+  color: green;
+}
+
+.quit-button {
+  border: 8px solid #FFAB9C;
+  color: #FFAB9C;
+}
+
+.quit-button:hover {
+  border: 8px solid red;
+  color: red;
+}
