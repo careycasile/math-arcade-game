@@ -376,40 +376,41 @@ function beginRound (questions, player, counter, blockNum, thisBlock, computer) 
 }
 
 //endRound function waits a half second to give the player enough time to see if they got the question wrong or right. It then checks to see if it is the final round, if so, it will display who won. If it is not the final round, it will populate a new question with the questionPopulate function. 
-function endRound (questions, counter, player, computer) {
+function endRound (questions, counter, player, computer, volume) {
   setTimeout(function() {
     if (counter === 10) {
     $('.volume').fadeOut(0);
     $('.answers').fadeOut(0);
     $('.question').fadeOut(0);
-    if (player.score.score > computer.score.score) {
-      $('.main-question').replaceWith("<p class='win'>You Win</p>");
-      $('.question').fadeIn(3000);
-      populateButtons(false);
-      $('.buttons').fadeOut(0);
-      setTimeout(function() {
-        $('.buttons').fadeIn(3000);
-      }, 2000);     
-    } else if (player.score.score < computer.score.score) {
-      $('.main-question').replaceWith("<p class='win'>Better Luck Next Time</p>");
-      $('.question').fadeIn(3000);
-      populateButtons(false);
-      $('.buttons').fadeOut(0);      
-      setTimeout(function() {
-        $('.buttons').fadeIn(3000);
-      }, 2000);   
+      if (player.score.score > computer.score.score) {
+        $('.main-question').replaceWith("<p class='win'>You Win</p>");
+        $('.question').fadeIn(3000);
+        populateButtons(false, player.name, player.age, volume);
+        $('.buttons').fadeOut(0);
+        setTimeout(function() {
+          $('.buttons').fadeIn(3000);
+        }, 2000);     
+      } else if (player.score.score < computer.score.score) {
+        $('.main-question').replaceWith("<p class='win'>Better Luck Next Time</p>");
+        $('.question').fadeIn(3000);
+        populateButtons(false, player.name, player.age, volume);
+        $('.buttons').fadeOut(0);      
+        setTimeout(function() {
+          $('.buttons').fadeIn(3000);
+        }, 2000);   
+      } else {
+        $('.main-question').replaceWith("<p class='win'>You Tied</p>");
+        $('.question').fadeIn(3000);
+        populateButtons(false, player.name, player.age, volume);
+        $('.buttons').fadeOut(0);      
+        setTimeout(function() {
+          $('.buttons').fadeIn(3000);
+        }, 2000);   
+      }
     } else {
-      $('.main-question').replaceWith("<p class='win'>You Tied</p>");
-      $('.question').fadeIn(3000);
-      populateButtons(false);
-      $('.buttons').fadeOut(0);      
-      setTimeout(function() {
-        $('.buttons').fadeIn(3000);
-      }, 2000);   
+      questionPopulate(questions[counter]);
     }
-  } else {
-    questionPopulate(questions[counter]);
-  }}, 500);
+  }, 500);
 }
 
 //answerAlert takes the answer the player chooses and changes the box and number to green or red depending on if the player got the question right or wrong. Counter is used to see which question we are on in the questions array and blockNum keeps track of which answer the user selected. The 'if' statement compares the questions[x].answer[blockNum] which is one of the 4 answers in that array to the correct answer associated with that question. 
@@ -427,7 +428,6 @@ function answerAlert(questions, player, counter, blockNum, thisBlock) {
 
 //Toggles the volume on and off when called.
 function volumeToggle (volume) {
-  console.log(volume);
   if (volume === true) {
     $('.volume').html("<i class='fa fa-volume-up' aria-hidden='true'></i>");
     return false;
@@ -437,7 +437,7 @@ function volumeToggle (volume) {
   }
 }
 
-function populateButtons(newRound) {
+function populateButtons(newRound, name, age, volume) {
   var playAgain;
 
   if (newRound === true) {
@@ -446,12 +446,11 @@ function populateButtons(newRound) {
     playAgain = 'Play Again';
   }
 
-
   $('body').append("<div class='buttons'><button class='play-button'>" + playAgain + "</button><button class='quit-button'>Quit</button></div>");
   
   $('.play-button').click(function(){
     removeButtons();
-    roundStarter();
+    roundStarter(name, age, volume);
   });
   
   $('.quit-button').click(function(){console.log('TERMINATE GAME FUNCTION GOES HERE');});
@@ -461,21 +460,27 @@ function removeButtons () {
   $('.buttons').remove();
 }
 
-function roundStarter() {
+function roundStarter(name, age, volume) {
   //Sets the computer name and the player name at the beginning of the round
   var computer = new Robot('Mr. Robot', 7, null);
-  var player = new Player('Carey', 5, null);
+  var player = new Player(name, age, null);
   
   //Creates variables for questions, counter, blockNum, and thisBlock. The generateQuestions function is called and the returned array is stored in the questions variable.
   var questions = generateQuestions(player);
   var counter = 0;
   var blockNum, thisBlock;
-  var volume = false;
-  
+  console.log(volume);
+
+  var tempVolume
+  if (volume === true) {
+    tempVolume = "<i class='fa fa-volume-off' aria-hidden='true'></i>";
+  } else {
+    tempVolume = "<i class='fa fa-volume-up' aria-hidden='true'></i>";
+  }
 
   //Appends HTML to the DOM in order to utilize the fadeIn effect
   $('.app').remove();
-  $('body').append("<div class='app'><div class='top-bar'><div class='player'><img class='player-img' src='http://via.placeholder.com/100x100' /><div class='player-full'><h2 class='player-h2'></h2><p class='player-p'>Score: 0</p><p class='hits'></p></div></div><div class='computer'><img class='computer-img' src='http://via.placeholder.com/100x100' /><h2 class='computer-h2'></h2><p class='computer-p'>Score: 0</p><p class='comp-hits'></p></div></div><div class='question'><p class='main-question'></p></div><div class='answers'><div class='answer-block answer1-block'><p class='answer-p answer1'></p></div><div class='answer-block answer2-block'><p class='answer-p answer2'></p></div><div class='answer-block answer3-block'><p class='answer-p answer3'></p></div><div class='answer-block answer4-block'><p class='answer-p answer4'></p></div></div><div class='volume'><i class='fa fa-volume-up' aria-hidden='true'></i></div></div>");
+  $('body').append("<div class='app'><div class='top-bar'><div class='player'><img class='player-img' src='http://via.placeholder.com/100x100' /><div class='player-full'><h2 class='player-h2'></h2><p class='player-p'>Score: 0</p><p class='hits'></p></div></div><div class='computer'><img class='computer-img' src='http://via.placeholder.com/100x100' /><h2 class='computer-h2'></h2><p class='computer-p'>Score: 0</p><p class='comp-hits'></p></div></div><div class='question'><p class='main-question'></p></div><div class='answers'><div class='answer-block answer1-block'><p class='answer-p answer1'></p></div><div class='answer-block answer2-block'><p class='answer-p answer2'></p></div><div class='answer-block answer3-block'><p class='answer-p answer3'></p></div><div class='answer-block answer4-block'><p class='answer-p answer4'></p></div></div><div class='volume'>" + tempVolume + "</div></div>");
   
   //Replaces the player and computer name with the correct names on the page.
   $('.player-h2').replaceWith('<h2 class="player-h2">' + player.name + '</h2>');
@@ -494,7 +499,7 @@ function roundStarter() {
       thisBlock = this;
       beginRound(questions, player, counter, blockNum, thisBlock, computer);
       counter++;      
-      endRound(questions, counter, player, computer);
+      endRound(questions, counter, player, computer, volume);
     });
     
     $('.answer2-block').click(function() {
@@ -502,7 +507,7 @@ function roundStarter() {
       thisBlock = this;
       beginRound(questions, player, counter, blockNum, thisBlock, computer);
       counter++;   
-      endRound(questions, counter, player, computer);
+      endRound(questions, counter, player, computer, volume);
 
     });
     
@@ -511,7 +516,7 @@ function roundStarter() {
       thisBlock = this;
       beginRound(questions, player, counter, blockNum, thisBlock, computer);
       counter++;   
-      endRound(questions, counter, player, computer);
+      endRound(questions, counter, player, computer, volume);
 
     });
     
@@ -520,16 +525,60 @@ function roundStarter() {
       thisBlock = this;
       beginRound(questions, player, counter, blockNum, thisBlock, computer);
       counter++;   
-      endRound(questions, counter, player, computer);
+      endRound(questions, counter, player, computer, volume);
     });
     
     //Toggles volume on with the volumeToggle function.
     $('.volume').click(function(){
+        console.log(volume);
         volume = volumeToggle(volume);
+        console.log(volume);
     });
+}
+
+function playerInfoEntry () {
+  $('body').append('<div class="info-screen"><div class="name"><p class="info-p">Enter Your First Name</p><input type="text" id="input-name" maxlength="16"></input></div><div class="age"><p class="info-p">Enter Your Age</p><input type="text" id="input-age"></input></div><button class="play-button initial-click">Continue</button><div class="volume"><i class="fa fa-volume-up" aria-hidden="true"></i></div></div>');
+  
+  $(".info-screen").fadeOut(0);
+  $(".info-screen").fadeIn(1000);
+
+  var volume = false;
+  console.log(volume);
+  $('.volume').click(function(){
+      volume = volumeToggle(volume);
+      console.log(volume);
+  });
+  
+  var clickEvent = $('.initial-click').click(function(){
+    var name = $('#input-name').val();
+    var age = $('#input-age').val();
+    
+    if (name.length === 0) {
+      $('.error-name').remove();
+      $('.name').append('<p class="error-name">Please Enter Your Name</p>');
+    } else {
+      $('.error-name').remove();      
+    }
+
+    if (age % 1 !== 0 || age.length === 0 || age > 100) {
+      $('.error-age').remove();
+      $('.age').append('<p class="error-age">Please Enter Your Age</p>');      
+    } else {
+      $('.error-age').remove();      
+    }
+    
+    if (name.length !== 0 && age % 1 === 0 && age <= 100) {
+      $(".info-screen").fadeOut(1000);
+      setTimeout(function(){$(".info-screen").remove();}, 1000);
+      //playerObj.playerName = name;
+      //playerObj.playerAge = age;
+      setTimeout(function(){populateButtons(true, name, age, volume);}, 1000);
+    }
+
+  });
 }
 
 //After all of the above classes and functions are loaded, the game begins below on 'document'.ready.
 $('document').ready(function() {
-  populateButtons(true);
+  playerInfoEntry();
 });
