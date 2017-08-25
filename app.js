@@ -471,7 +471,7 @@ function roundStarter(name, age, volume) {
   var blockNum, thisBlock;
   console.log(volume);
 
-  var tempVolume
+  var tempVolume;
   if (volume === true) {
     tempVolume = "<i class='fa fa-volume-off' aria-hidden='true'></i>";
   } else {
@@ -570,9 +570,7 @@ function playerInfoEntry () {
     if (name.length !== 0 && age % 1 === 0 && age <= 100) {
       $(".info-screen").fadeOut(1000);
       setTimeout(function(){$(".info-screen").remove();}, 1000);
-      //playerObj.playerName = name;
-      //playerObj.playerAge = age;
-      setTimeout(function(){populateButtons(true, name, age, volume);}, 1000);
+      setTimeout(function(){populateButtons(true, name, Number.parseInt(age), volume);}, 1000);
     }
 
   });
